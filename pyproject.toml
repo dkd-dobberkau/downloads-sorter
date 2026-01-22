@@ -29,9 +29,10 @@ classifiers = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/dkd-dobberkau/downloads-sorter"
+Homepage = "https://dkd-dobberkau.github.io/downloads-sorter/"
 Repository = "https://github.com/dkd-dobberkau/downloads-sorter"
 Issues = "https://github.com/dkd-dobberkau/downloads-sorter/issues"
+Documentation = "https://dkd-dobberkau.github.io/downloads-sorter/"
 
 [project.scripts]
 downloads-sorter = "downloads_sorter.cli:main"
