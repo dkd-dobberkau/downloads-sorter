@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>downloads-sorter - Organize your Downloads folder automatically</title>
+    <meta name="description" content="A powerful Python CLI tool to automatically organize your downloads folder by file type and content patterns.">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Hero Section -->
+    <header class="hero">
+        <div class="container">
+            <h1><span class="emoji">🗂️</span> downloads-sorter</h1>
+            <p class="tagline">Organize your Downloads folder automatically</p>
+
+            <div class="terminal">
+                <div class="terminal-header">
+                    <span class="terminal-dot red"></span>
+                    <span class="terminal-dot yellow"></span>
+                    <span class="terminal-dot green"></span>
+                </div>
+                <div class="terminal-body">
+                    <div class="terminal-line">
+                        <span class="prompt">$</span> pip install downloads-sorter
+                    </div>
+                    <div class="terminal-line">
+                        <span class="prompt">$</span> downloads-sorter
+                    </div>
+                    <div class="terminal-line output">
+                        <span class="success">✅</span> Sorted 47 files into 12 folders
+                    </div>
+                </div>
+            </div>
+
+            <div class="hero-buttons">
+                <a href="https://github.com/dkd-dobberkau/downloads-sorter" class="btn btn-secondary">GitHub</a>
+                <a href="https://pypi.org/project/downloads-sorter/" class="btn btn-secondary">PyPI</a>
+                <a href="#features" class="btn btn-primary">Get Started ↓</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <h2>Features</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📂</div>
+                    <h3>Smart Sorting</h3>
+                    <p>Sorts files by extension into organized folders like _pdf, _docx, _xlsx, and more.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🧠</div>
+                    <h3>Pattern Matching</h3>
+                    <p>Recognizes invoices, contracts, screenshots, and other content patterns automatically.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Statistics</h3>
+                    <p>See how your downloads are organized with the --stats command.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Folder Structure Section -->
+    <section class="folder-structure">
+        <div class="container">
+            <h2>Folder Structure</h2>
+            <div class="terminal">
+                <div class="terminal-header">
+                    <span class="terminal-dot red"></span>
+                    <span class="terminal-dot yellow"></span>
+                    <span class="terminal-dot green"></span>
+                </div>
+                <div class="terminal-body tree">
+                    <div class="tree-line"><span class="folder">~/Downloads/</span></div>
+                    <div class="tree-line">├── <span class="folder">_pdf/</span><span class="comment"># PDF documents</span></div>
+                    <div class="tree-line">├── <span class="folder">_receipts/</span><span class="comment"># Invoices &amp; receipts</span></div>
+                    <div class="tree-line">├── <span class="folder">_contracts/</span><span class="comment"># Legal documents</span></div>
+                    <div class="tree-line">├── <span class="folder">_screenshots/</span><span class="comment"># Screen captures</span></div>
+                    <div class="tree-line">├── <span class="folder">_applications/</span><span class="comment"># .dmg, .exe, .pkg</span></div>
+                    <div class="tree-line">├── <span class="folder">_projects/</span><span class="comment"># Project files</span></div>
+                    <div class="tree-line">└── <span class="folder">_misc/</span><span class="comment"># Everything else</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Usage Section -->
+    <section class="usage">
+        <div class="container">
+            <h2>Usage</h2>
+
+            <div class="code-block">
+                <div class="code-header">
+                    <span>Installation</span>
+                    <button class="copy-btn" onclick="copyCode(this)" data-code="pip install downloads-sorter">📋</button>
+                </div>
+                <div class="code-body">
+                    <span class="prompt">$</span> pip install downloads-sorter
+                </div>
+            </div>
+
+            <div class="code-block">
+                <div class="code-header">
+                    <span>Commands</span>
+                </div>
+                <div class="code-body">
+                    <div class="code-line"><span class="prompt">$</span> downloads-sorter <span class="comment"># Sort files</span></div>
+                    <div class="code-line"><span class="prompt">$</span> downloads-sorter --dry-run <span class="comment"># Preview only</span></div>
+                    <div class="code-line"><span class="prompt">$</span> downloads-sorter --stats <span class="comment"># Show stats</span></div>
+                    <div class="code-line"><span class="prompt">$</span> downloads-sorter -d /path <span class="comment"># Custom dir</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-line"></div>
+            <p>
+                MIT License ·
+                <a href="https://github.com/dkd-dobberkau/downloads-sorter">GitHub</a> ·
+                <a href="https://pypi.org/project/downloads-sorter/">PyPI</a> ·
+                v0.2.0
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        function copyCode(btn) {
+            const code = btn.dataset.code;
+            navigator.clipboard.writeText(code).then(() => {
+                btn.textContent = '✓';
+                setTimeout(() => btn.textContent = '📋', 2000);
+            });
+        }
+    </script>
+</body>
+</html>

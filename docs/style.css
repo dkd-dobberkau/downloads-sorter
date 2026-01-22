@@ -1,0 +1,367 @@
+/* Base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --bg-primary: #0d1117;
+    --bg-secondary: #161b22;
+    --bg-tertiary: #21262d;
+    --text-primary: #e6edf3;
+    --text-secondary: #8b949e;
+    --accent: #58a6ff;
+    --green: #3fb950;
+    --red: #f85149;
+    --yellow: #d29922;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+a {
+    color: var(--accent);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+h2 {
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+/* Hero Section */
+.hero {
+    padding: 80px 0 60px;
+    text-align: center;
+}
+
+.hero h1 {
+    font-size: 2.8rem;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+.hero .emoji {
+    margin-right: 0.3rem;
+}
+
+.tagline {
+    font-size: 1.4rem;
+    color: var(--text-secondary);
+    margin-bottom: 2.5rem;
+}
+
+/* Terminal */
+.terminal {
+    background-color: var(--bg-secondary);
+    border-radius: 8px;
+    overflow: hidden;
+    text-align: left;
+    margin: 0 auto 2rem;
+    max-width: 500px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.terminal-header {
+    background-color: var(--bg-tertiary);
+    padding: 12px 16px;
+    display: flex;
+    gap: 8px;
+}
+
+.terminal-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+
+.terminal-dot.red { background-color: var(--red); }
+.terminal-dot.yellow { background-color: var(--yellow); }
+.terminal-dot.green { background-color: var(--green); }
+
+.terminal-body {
+    padding: 20px;
+    font-family: 'SF Mono', 'Fira Code', 'Monaco', 'Consolas', monospace;
+    font-size: 0.95rem;
+}
+
+.terminal-line {
+    margin-bottom: 8px;
+}
+
+.terminal-line:last-child {
+    margin-bottom: 0;
+}
+
+.prompt {
+    color: var(--green);
+    margin-right: 8px;
+    user-select: none;
+}
+
+.success {
+    margin-right: 8px;
+}
+
+.output {
+    color: var(--text-secondary);
+}
+
+/* Hero Buttons */
+.hero-buttons {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.btn {
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-weight: 500;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+}
+
+.btn-primary {
+    background-color: var(--accent);
+    color: var(--bg-primary);
+}
+
+.btn-primary:hover {
+    background-color: #79b8ff;
+    text-decoration: none;
+}
+
+.btn-secondary {
+    background-color: var(--bg-tertiary);
+    color: var(--text-primary);
+    border: 1px solid var(--bg-tertiary);
+}
+
+.btn-secondary:hover {
+    border-color: var(--text-secondary);
+    text-decoration: none;
+}
+
+/* Features Section */
+.features {
+    padding: 60px 0;
+}
+
+.feature-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+}
+
+.feature-card {
+    background-color: var(--bg-secondary);
+    border-radius: 8px;
+    padding: 24px;
+    border: 1px solid var(--bg-tertiary);
+    transition: border-color 0.2s ease;
+}
+
+.feature-card:hover {
+    border-color: var(--text-secondary);
+}
+
+.feature-icon {
+    font-size: 2rem;
+    margin-bottom: 12px;
+}
+
+.feature-card h3 {
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+}
+
+.feature-card p {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+}
+
+/* Folder Structure Section */
+.folder-structure {
+    padding: 60px 0;
+}
+
+.folder-structure .terminal {
+    max-width: 450px;
+}
+
+.tree {
+    font-size: 0.9rem;
+}
+
+.tree-line {
+    margin-bottom: 4px;
+    white-space: nowrap;
+}
+
+.folder {
+    color: var(--accent);
+}
+
+.comment {
+    color: var(--text-secondary);
+    margin-left: 16px;
+}
+
+/* Usage Section */
+.usage {
+    padding: 60px 0;
+}
+
+.code-block {
+    background-color: var(--bg-secondary);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 20px;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.code-header {
+    background-color: var(--bg-tertiary);
+    padding: 10px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.copy-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+}
+
+.copy-btn:hover {
+    background-color: var(--bg-secondary);
+}
+
+.code-body {
+    padding: 16px 20px;
+    font-family: 'SF Mono', 'Fira Code', 'Monaco', 'Consolas', monospace;
+    font-size: 0.9rem;
+}
+
+.code-line {
+    margin-bottom: 6px;
+}
+
+.code-line:last-child {
+    margin-bottom: 0;
+}
+
+.code-body .comment {
+    margin-left: 8px;
+}
+
+/* Footer */
+.footer {
+    padding: 40px 0;
+    text-align: center;
+}
+
+.footer-line {
+    height: 1px;
+    background-color: var(--bg-tertiary);
+    margin-bottom: 24px;
+}
+
+.footer p {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.footer a {
+    color: var(--text-secondary);
+}
+
+.footer a:hover {
+    color: var(--accent);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .hero h1 {
+        font-size: 2rem;
+    }
+
+    .tagline {
+        font-size: 1.1rem;
+    }
+
+    .feature-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 500px) {
+    .hero {
+        padding: 60px 0 40px;
+    }
+
+    .feature-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .terminal {
+        border-radius: 0;
+        margin-left: -20px;
+        margin-right: -20px;
+        max-width: none;
+    }
+
+    .code-block {
+        border-radius: 0;
+        margin-left: -20px;
+        margin-right: -20px;
+        max-width: none;
+    }
+
+    .folder-structure .terminal {
+        max-width: none;
+    }
+
+    .tree-line {
+        font-size: 0.8rem;
+    }
+
+    .comment {
+        display: none;
+    }
+}
