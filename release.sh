@@ -24,7 +24,7 @@ echo "Releasing version $VERSION..."
 sed -i '' "s/^version = \".*\"/version = \"$VERSION\"/" pyproject.toml
 
 # Update version in __init__.py
-sed -i '' "s/^__version__ = '.*'/__version__ = '$VERSION'/" downloads_sorter/__init__.py
+sed -i '' "s/^__version__ = [\"'].*[\"']/__version__ = \"$VERSION\"/" downloads_sorter/__init__.py
 
 # Show changes
 echo ""
