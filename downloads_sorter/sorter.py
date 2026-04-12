@@ -260,7 +260,8 @@ def get_stats(downloads_dir: Optional[Path] = None) -> dict:
 
     Returns:
         A dictionary with statistics: total_files, organized_files,
-        unorganized_files, folders (counts per folder), file_types (counts per extension).
+        unorganized_files, folders (counts per folder),
+        file_types (counts per extension).
     """
     if downloads_dir is None:
         downloads_dir = get_downloads_dir()

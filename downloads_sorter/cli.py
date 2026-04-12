@@ -7,7 +7,6 @@ import argparse
 import sys
 import os
 import logging
-from pathlib import Path
 from .sorter import sort_downloads, get_stats, get_downloads_dir
 from . import __version__
 
@@ -69,11 +68,10 @@ def main() -> int:
     if args.stats:
         stats = get_stats(downloads_dir)
 
-        print(f"\n📊 Downloads Folder Statistics:")
+        print("\n📊 Downloads Folder Statistics:")
         print(f"📁 Total files: {stats['total_files']}")
-        print(
-            f"🗂️ Organized files: {stats['organized_files']} ({round(stats['organized_files']/max(stats['total_files'], 1)*100, 1)}%)"
-        )
+        pct = round(stats["organized_files"] / max(stats["total_files"], 1) * 100, 1)
+        print(f"🗂️ Organized files: {stats['organized_files']} ({pct}%)")
         print(f"🧹 Unorganized files: {stats['unorganized_files']}")
 
         print("\n📂 Files by folder:")
@@ -98,8 +96,8 @@ def main() -> int:
 
         cron_job = f"0 * * * * {sys.executable} -m downloads_sorter.cli"
 
-        print(f"\n🔄 Setting up automatic sorting...")
-        print(f"This will add a cron job to run downloads_sorter every hour:")
+        print("\n🔄 Setting up automatic sorting...")
+        print("This will add a cron job to run downloads_sorter every hour:")
         print(f"  {cron_job}")
 
         confirm = input("\nProceed? (y/n): ")
@@ -147,21 +145,21 @@ def main() -> int:
     # Default command: sort downloads
     try:
         if args.dry_run:
-            print(f"🔍 DRY RUN - No files will be moved")
+            print("🔍 DRY RUN - No files will be moved")
 
         print(f"🗂️ Sorting downloads in: {downloads_dir}")
         result = sort_downloads(downloads_dir, args.dry_run)
 
         # Show results
-        print(f"\n✅ Done!")
-        print(f"📊 Summary:")
+        print("\n✅ Done!")
+        print("📊 Summary:")
         print(f"  Files processed: {result['processed']}")
         print(f"  Files organized: {result['moved']}")
         print(f"  Files skipped: {result['skipped']}")
         print(f"  Errors: {result['errors']}")
 
         if not args.dry_run:
-            print(f"\n💡 Tip: Run with --stats to see organization statistics")
+            print("\n💡 Tip: Run with --stats to see organization statistics")
 
         return 0
     except Exception as e:
