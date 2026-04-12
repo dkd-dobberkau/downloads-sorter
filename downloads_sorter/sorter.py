@@ -12,15 +12,15 @@ from typing import Optional
 
 # Set up logging
 logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
-logger = logging.getLogger('downloads_sorter')
+logger = logging.getLogger("downloads_sorter")
 
 
 def get_downloads_dir() -> Path:
     """Get the user's downloads directory path."""
     return Path.home() / "Downloads"
+
 
 # Define file extensions and their corresponding folders
 FILE_TYPES = {
@@ -36,7 +36,6 @@ FILE_TYPES = {
     ".html": "_html",
     ".htm": "_html",
     ".rtf": "_txt",
-    
     # Images
     ".png": "_png",
     ".jpg": "_jpeg",
@@ -47,7 +46,6 @@ FILE_TYPES = {
     ".bmp": "_png",
     ".tiff": "_png",
     ".ico": "_png",
-    
     # Media
     ".mp3": "_mp3",
     ".mp4": "_mp4",
@@ -57,14 +55,12 @@ FILE_TYPES = {
     ".mkv": "_mp4",
     ".flac": "_mp3",
     ".m3u": "_m3u",
-    
     # Archives
     ".zip": "_zip",
     ".rar": "_zip",
     ".7z": "_zip",
     ".tar": "_zip",
     ".gz": "_zip",
-    
     # Presentations and design
     ".pptx": "_pptx",
     ".ppt": "_pptx",
@@ -72,7 +68,6 @@ FILE_TYPES = {
     ".ai": "_misc",
     ".psd": "_misc",
     ".sketch": "_misc",
-    
     # Code and development
     ".py": "_py",
     ".js": "_code",
@@ -96,25 +91,27 @@ FILE_TYPES = {
 SPECIAL_PATTERNS = {
     # Receipts and invoices
     ("rechnung", "invoice", "quittung", "receipt", "db_rechnung", "_kv-"): "_receipts",
-
     # Contracts
-    ("vertrag", "contract", "vereinbarung", "agreement", "datenschutz", "avv"): "_contracts",
-
+    (
+        "vertrag",
+        "contract",
+        "vereinbarung",
+        "agreement",
+        "datenschutz",
+        "avv",
+    ): "_contracts",
     # Calendar and meetings
     ("calendar", ".ics", "meeting", "conference"): "_meetings",
-
     # Applications
     (".dmg", ".app", ".exe", ".msi", ".deb", ".rpm", ".pkg"): "_applications",
-
     # Projects
     ("project", "projekt", "roadmap", "business-model", "projektauftrag"): "_projects",
-
     # Screenshots
     ("screenshot", "bildschirmfoto", "screen capture"): "_screenshots",
 }
 
 # Files to skip during sorting
-SKIP_FILES = {'.DS_Store', '.localized', 'sort_downloads.py', 'README_SORT.md'}
+SKIP_FILES = {".DS_Store", ".localized", "sort_downloads.py", "README_SORT.md"}
 
 
 def ensure_dir_exists(directory: Path) -> Path:
@@ -142,11 +139,7 @@ def get_unique_path(target_path: Path) -> Path:
 
 
 def _move_file_to_folder(
-    file_path: Path,
-    file_name: str,
-    folder: str,
-    downloads_dir: Path,
-    dry_run: bool
+    file_path: Path, file_name: str, folder: str, downloads_dir: Path, dry_run: bool
 ) -> Optional[Path]:
     """
     Move a file to the specified folder within downloads_dir.
@@ -169,9 +162,7 @@ def _move_file_to_folder(
 
 
 def sort_file(
-    file_path: str,
-    downloads_dir: Optional[Path] = None,
-    dry_run: bool = False
+    file_path: str, downloads_dir: Optional[Path] = None, dry_run: bool = False
 ) -> Optional[Path]:
     """
     Sort a file into the appropriate folder based on its extension or name.
@@ -199,7 +190,7 @@ def sort_file(
     file_name = file_path.name
 
     # Skip hidden files and system files
-    if file_name.startswith('.') or file_name in SKIP_FILES:
+    if file_name.startswith(".") or file_name in SKIP_FILES:
         logger.debug(f"Skipping file: {file_name}")
         return None
 
@@ -209,17 +200,16 @@ def sort_file(
     # Check special patterns first
     for patterns, folder in SPECIAL_PATTERNS.items():
         if any(pattern.lower() in file_name_lower for pattern in patterns):
-            return _move_file_to_folder(file_path, file_name, folder, downloads_dir, dry_run)
+            return _move_file_to_folder(
+                file_path, file_name, folder, downloads_dir, dry_run
+            )
 
     # Check by file extension
     folder = FILE_TYPES.get(extension, "_misc")
     return _move_file_to_folder(file_path, file_name, folder, downloads_dir, dry_run)
 
 
-def sort_downloads(
-    downloads_dir: Optional[Path] = None,
-    dry_run: bool = False
-) -> dict:
+def sort_downloads(downloads_dir: Optional[Path] = None, dry_run: bool = False) -> dict:
     """
     Sort all files in the downloads directory.
 
@@ -281,12 +271,12 @@ def get_stats(downloads_dir: Optional[Path] = None) -> dict:
         "organized_files": 0,
         "unorganized_files": 0,
         "folders": {},
-        "file_types": Counter()
+        "file_types": Counter(),
     }
 
     # Single pass over directory contents
     for item_path in downloads_dir.iterdir():
-        if item_path.name.startswith('.'):
+        if item_path.name.startswith("."):
             continue
 
         if item_path.is_file():
@@ -296,7 +286,11 @@ def get_stats(downloads_dir: Optional[Path] = None) -> dict:
         elif item_path.is_dir():
             # Subdirectory = organized files
             try:
-                folder_files = [f for f in item_path.iterdir() if f.is_file() and not f.name.startswith('.')]
+                folder_files = [
+                    f
+                    for f in item_path.iterdir()
+                    if f.is_file() and not f.name.startswith(".")
+                ]
                 file_count = len(folder_files)
 
                 stats["folders"][item_path.name] = file_count
