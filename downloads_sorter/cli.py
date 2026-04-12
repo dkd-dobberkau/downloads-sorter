@@ -11,7 +11,7 @@ from pathlib import Path
 from .sorter import sort_downloads, get_stats, get_downloads_dir
 from . import __version__
 
-def main():
+def main() -> int:
     """Main entry point for the command-line interface."""
     parser = argparse.ArgumentParser(
         description="Downloads Sorter - A tool to organize your downloads folder"
@@ -62,9 +62,12 @@ def main():
     # Determine downloads directory
     downloads_dir = args.directory if args.directory else get_downloads_dir()
     
-    # Validate directory exists
+    # Validate directory exists and is writable
     if not os.path.isdir(downloads_dir):
         print(f"Error: Directory not found: {downloads_dir}")
+        return 1
+    if not os.access(downloads_dir, os.W_OK):
+        print(f"Error: No write permission for: {downloads_dir}")
         return 1
     
     # Handle stats command
@@ -105,24 +108,35 @@ def main():
             
         try:
             import subprocess
+            import tempfile
             # Get existing crontab
-            existing = subprocess.check_output('crontab -l 2>/dev/null || echo ""', shell=True).decode()
-            
+            try:
+                existing = subprocess.run(
+                    ["crontab", "-l"],
+                    capture_output=True, text=True, check=False
+                ).stdout
+            except FileNotFoundError:
+                print("Error: crontab command not found.")
+                return 1
+
             # Check if our job is already in there
             if cron_job in existing:
                 print("Cron job already exists!")
                 return 0
-                
-            # Add our job
-            with open('/tmp/downloads_sorter_cron', 'w') as f:
-                if existing and not existing.endswith('\n'):
-                    existing += '\n'
-                f.write(f"{existing}{cron_job}\n")
-                
-            # Install new crontab
-            subprocess.call('crontab /tmp/downloads_sorter_cron', shell=True)
-            os.unlink('/tmp/downloads_sorter_cron')
-            
+
+            # Add our job via temp file
+            if existing and not existing.endswith('\n'):
+                existing += '\n'
+            new_crontab = f"{existing}{cron_job}\n"
+
+            fd, tmp_path = tempfile.mkstemp(prefix="downloads_sorter_cron_")
+            try:
+                with os.fdopen(fd, 'w') as f:
+                    f.write(new_crontab)
+                subprocess.run(["crontab", tmp_path], check=True)
+            finally:
+                os.unlink(tmp_path)
+
             print("✅ Automatic sorting has been set up!")
             return 0
         except Exception as e:

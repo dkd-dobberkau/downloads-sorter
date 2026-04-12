@@ -165,8 +165,7 @@ def _move_file_to_folder(
         logger.info(f"Moved {file_name} to {folder}/")
         return target_path
     except Exception as e:
-        logger.error(f"Error moving {file_name}: {e}")
-        return None
+        raise OSError(f"Error moving {file_name}: {e}") from e
 
 
 def sort_file(
@@ -247,11 +246,15 @@ def sort_downloads(
 
     for file_path in files:
         result["processed"] += 1
-        new_path = sort_file(file_path, downloads_dir, dry_run)
-        if new_path:
-            result["moved"] += 1
-        else:
-            result["skipped"] += 1
+        try:
+            new_path = sort_file(file_path, downloads_dir, dry_run)
+            if new_path:
+                result["moved"] += 1
+            else:
+                result["skipped"] += 1
+        except Exception as e:
+            logger.error(f"Error sorting {file_path.name}: {e}")
+            result["errors"] += 1
 
     logger.info(
         f"Done sorting files! "
@@ -281,31 +284,31 @@ def get_stats(downloads_dir: Optional[Path] = None) -> dict:
         "file_types": Counter()
     }
 
-    # Count files in top level (unorganized)
-    top_files = [f for f in downloads_dir.iterdir() if f.is_file() and not f.name.startswith('.')]
-    stats["unorganized_files"] = len(top_files)
-    stats["total_files"] += len(top_files)
-
-    # Count files in subdirectories (organized)
+    # Single pass over directory contents
     for item_path in downloads_dir.iterdir():
-        if not item_path.is_dir() or item_path.name.startswith('.'):
+        if item_path.name.startswith('.'):
             continue
 
-        try:
-            folder_files = [f for f in item_path.iterdir() if f.is_file() and not f.name.startswith('.')]
-            file_count = len(folder_files)
+        if item_path.is_file():
+            # Top-level file = unorganized
+            stats["unorganized_files"] += 1
+            stats["total_files"] += 1
+        elif item_path.is_dir():
+            # Subdirectory = organized files
+            try:
+                folder_files = [f for f in item_path.iterdir() if f.is_file() and not f.name.startswith('.')]
+                file_count = len(folder_files)
 
-            stats["folders"][item_path.name] = file_count
-            stats["organized_files"] += file_count
-            stats["total_files"] += file_count
+                stats["folders"][item_path.name] = file_count
+                stats["organized_files"] += file_count
+                stats["total_files"] += file_count
 
-            # Count file extensions
-            for file in folder_files:
-                ext = file.suffix.lower()
-                if ext:
-                    stats["file_types"][ext] += 1
-        except Exception as e:
-            logger.error(f"Error counting files in {item_path}: {e}")
+                for file in folder_files:
+                    ext = file.suffix.lower()
+                    if ext:
+                        stats["file_types"][ext] += 1
+            except Exception as e:
+                logger.error(f"Error counting files in {item_path}: {e}")
 
     # Convert Counter to dict for consistent return type
     stats["file_types"] = dict(stats["file_types"])
